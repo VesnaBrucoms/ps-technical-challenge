@@ -1,5 +1,3 @@
-* dev env
-  * remote repo
 * Actions
   * run tests
   * building & release image

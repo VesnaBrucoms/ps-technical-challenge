@@ -1,6 +1,10 @@
 # PlayStation Technical Challenge
 
-## Setup and Run
+For information on [design](./docs/design/index.md).
+
+## Getting Started
+
+### Setup and Run
 
 Create and enter a virtual environment:
 
@@ -22,14 +26,14 @@ Run with the development server:
 
 Access on `http://127.0.0.1:5000/`.
 
-## Testing
+### Testing
 
-    py -m unittest ./tests
+    py -m unittest ps-challenge
 
-### Remote API
+#### Remote API
 
     java -jar ./remote-api/playstation-tech-test-api.jar
 
-## Docker
+### Docker
 
     docker build .
