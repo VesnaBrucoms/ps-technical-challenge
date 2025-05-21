@@ -28,7 +28,7 @@ Access on `http://127.0.0.1:5000/`.
 
 ### Testing
 
-    py -m unittest ps-challenge
+    python -m unittest
 
 #### Remote API
 

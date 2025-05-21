@@ -13,4 +13,4 @@ jobs:
       - run: ls -la ${{ github.workspace }}
 
       - name: Run unit tests
-        run: python -m unitest ps-challenge
+        run: python -m unittest
