@@ -1,7 +1,9 @@
+from unittest import TestCase
+
 from responses import add
 from responses import activate
 from responses import Response
-from unittest import TestCase
+
 from ps_challenge.users import get_user_library
 from ps_challenge.users import get_game_achievements
 from ps_challenge.users import get_all_users
