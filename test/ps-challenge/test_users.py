@@ -36,7 +36,7 @@ class TestUsers(TestCase):
 
         result = get_all_users()
 
-        self.assertDictEqual(mock_json, result)
+        self.assertEqual(mock_json, result)
 
     @activate
     def test_get_all_users_500(self):
@@ -50,7 +50,7 @@ class TestUsers(TestCase):
 
         with self.assertRaises(UserDataNotFoundError) as error:
             get_all_users()
-        self.assertEquals(error.status_code, 500)
+        self.assertEqual(error.exception.status_code, 500)
 
     @activate
     def test_get_user_library(self):
@@ -89,7 +89,7 @@ class TestUsers(TestCase):
 
         with self.assertRaises(UserDataNotFoundError) as error:
             get_user_library(user_id)
-        self.assertEquals(error.status_code, 404)
+        self.assertEqual(error.exception.status_code, 404)
 
     @activate
     def test_get_game_achievements(self):
@@ -130,4 +130,4 @@ class TestUsers(TestCase):
 
         with self.assertRaises(UserDataNotFoundError) as error:
             get_game_achievements(user_id, game_id)
-        self.assertEquals(error.status_code, 404)
+        self.assertEqual(error.exception.status_code, 404)
