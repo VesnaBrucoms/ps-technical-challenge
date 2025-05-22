@@ -28,7 +28,7 @@ Access on `http://127.0.0.1:5000/`.
 
 ### Testing
 
-    python -m unittest
+    python -m unittest -v
 
 #### Remote API
 
