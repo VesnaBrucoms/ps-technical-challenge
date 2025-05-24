@@ -56,6 +56,19 @@ def get_user_completed_percentages(user_id, games):
 
 
 def calculate_achievement_level(achievement_data):
-    game_count = len(achievement_data)
-    ((50, 100), (25, 80), (10, 75), (10, 0))
-    return ""
+    level = ""
+    thresholds = (
+        (50, True, True, True, "Platinum"),
+        (25, False, True, True, "Gold"),
+        (10, False, False, True, "Silver"),
+        (10, False, False, False, "Bronze"),
+    )
+    for threshold in thresholds:
+        if (
+            len(achievement_data["games"]) > threshold[0]
+            and achievement_data["is100"] == threshold[1]
+            and achievement_data["isOver80"] == threshold[2]
+            and achievement_data["isOver75"] == threshold[3]
+        ):
+            level = threshold[4]
+    return level

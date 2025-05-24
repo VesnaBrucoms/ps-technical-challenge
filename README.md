@@ -22,7 +22,7 @@ Install package to virtual environment:
 
 Run with the development server:
 
-    flask --app ps-challenge.app run
+    flask --app ps_challenge.app run
 
 Access on `http://127.0.0.1:5000/`.
 

@@ -185,9 +185,14 @@ class TestController(TestCase):
         self.assertEqual(get_achieve_mock.call_count, 1)
 
     def test_calculate_achievement_level_bronze(self):
-        bronze_data = generate_mock_percent_list_json(
-            bronze_lib["user"], bronze_lib["ownedGames"], bronze_completed_counts
-        )
+        bronze_data = {
+            "games": generate_mock_percent_list_json(
+                bronze_lib["user"], bronze_lib["ownedGames"], bronze_completed_counts
+            ),
+            "is100": False,
+            "isOver80": False,
+            "isOver75": False,
+        }
         expected_result = "Bronze"
 
         result = calculate_achievement_level(bronze_data)
@@ -195,9 +200,14 @@ class TestController(TestCase):
         self.assertEqual(result, expected_result)
 
     def test_calculate_achievement_level_silver(self):
-        silver_data = generate_mock_percent_list_json(
-            silver_lib["user"], silver_lib["ownedGames"], silver_completed_counts
-        )
+        silver_data = {
+            "games": generate_mock_percent_list_json(
+                silver_lib["user"], silver_lib["ownedGames"], silver_completed_counts
+            ),
+            "is100": False,
+            "isOver80": False,
+            "isOver75": True,
+        }
         expected_result = "Silver"
 
         result = calculate_achievement_level(silver_data)
@@ -205,9 +215,14 @@ class TestController(TestCase):
         self.assertEqual(result, expected_result)
 
     def test_calculate_achievement_level_gold(self):
-        gold_data = generate_mock_percent_list_json(
-            gold_lib["user"], gold_lib["ownedGames"], gold_completed_counts
-        )
+        gold_data = {
+            "games": generate_mock_percent_list_json(
+                gold_lib["user"], gold_lib["ownedGames"], gold_completed_counts
+            ),
+            "is100": False,
+            "isOver80": True,
+            "isOver75": True,
+        }
         expected_result = "Gold"
 
         result = calculate_achievement_level(gold_data)
@@ -215,9 +230,16 @@ class TestController(TestCase):
         self.assertEqual(result, expected_result)
 
     def test_calculate_achievement_level_platinum(self):
-        platinum_data = generate_mock_percent_list_json(
-            platinum_lib["user"], platinum_lib["ownedGames"], platinum_completed_counts
-        )
+        platinum_data = {
+            "games": generate_mock_percent_list_json(
+                platinum_lib["user"],
+                platinum_lib["ownedGames"],
+                platinum_completed_counts,
+            ),
+            "is100": True,
+            "isOver80": True,
+            "isOver75": True,
+        }
         expected_result = "Platinum"
 
         result = calculate_achievement_level(platinum_data)

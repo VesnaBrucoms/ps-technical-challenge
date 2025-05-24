@@ -1,12 +1,20 @@
-import controller
-from app import app
+from flask import Flask
+
+from ps_challenge.controller import get_user_achievement_level
+
+app = Flask(__name__)
 
 
-@app.get("users/")
+@app.route("/")
 def get_all_users():
     return {}
 
 
-@app.get("users/{user_id}")
-def get_user(user_id):
-    return controller.get_user_achievement_level(user_id)
+@app.get("/users")
+def get_all_users_levels():
+    return {}
+
+
+@app.get("/users/<int:user_id>")
+def get_user_level(user_id):
+    return get_user_achievement_level(user_id)
