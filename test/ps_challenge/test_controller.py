@@ -5,6 +5,7 @@ from ps_challenge.controller import (
     get_all_users_achievement_levels,
     get_user_achievement_level,
     get_user_completed_achievements,
+    calculate_achievement_level,
 )
 from ps_challenge.exceptions import UserDataNotFoundError
 from test.mock_data.mock_achievements import (
@@ -46,14 +47,14 @@ class TestController(TestCase):
         result = get_all_users_achievement_levels()
         self.assertDictEqual(result, expected_json)
 
-    @patch("ps_challenge.controller.get_game_achievements")
+    @patch("ps_challenge.controller.calculate_achievement_level")
+    @patch("ps_challenge.controller.get_user_completed_achievements")
     @patch("ps_challenge.controller.get_user_library")
-    def test_get_user_achievement_level_none(self, get_lib_mock, get_achieve_mock):
+    def test_get_user_achievement_level_none(
+        self, get_lib_mock, get_completed_mock, get_level_mock
+    ):
         user_id = 1
         get_lib_mock.return_value = none_lib
-        get_achieve_mock.side_effect = generate_mock_achievement_list_json(
-            none_lib["user"], none_lib["ownedGames"], none_completed_counts
-        )
         expected_json = {
             "user": {
                 "id": user_id,
@@ -63,100 +64,51 @@ class TestController(TestCase):
             "overallAchievmentLevel": "None",
         }
         result = get_user_achievement_level(user_id)
-        self.assertDictEqual(result, expected_json)
 
-    @patch("ps_challenge.controller.get_game_achievements")
+        self.assertDictEqual(result, expected_json)
+        self.assertEqual(get_completed_mock.call_count, 0)
+        self.assertEqual(get_level_mock.call_count, 0)
+
+    @patch("ps_challenge.controller.calculate_achievement_level")
+    @patch("ps_challenge.controller.get_user_completed_achievements")
     @patch("ps_challenge.controller.get_user_library")
-    def test_get_user_achievement_level_bronze(self, get_lib_mock, get_achieve_mock):
-        user_id = 2
+    def test_get_user_achievement_level(
+        self, get_lib_mock, get_completed_mock, get_level_mock
+    ):
         get_lib_mock.return_value = bronze_lib
-        get_achieve_mock.side_effect = generate_mock_achievement_list_json(
+        get_completed_mock.side_effect = generate_mock_achievement_list_json(
             bronze_lib["user"], bronze_lib["ownedGames"], bronze_completed_counts
         )
+        get_level_mock.return_value = "Bronze"
         expected_json = {
             "user": {
-                "id": user_id,
+                "id": bronze_lib["user"]["id"],
                 "name": "Bronze Tester",
                 "email": "btester@email.com",
             },
             "overallAchievmentLevel": "Bronze",
         }
-        result = get_user_achievement_level(user_id)
-        self.assertDictEqual(result, expected_json)
 
-    @patch("ps_challenge.controller.get_game_achievements")
-    @patch("ps_challenge.controller.get_user_library")
-    def test_get_user_achievement_level_silver(self, get_lib_mock, get_achieve_mock):
-        user_id = 3
-        get_lib_mock.return_value = silver_lib
-        get_achieve_mock.side_effect = generate_mock_achievement_list_json(
-            silver_lib["user"], silver_lib["ownedGames"], silver_completed_counts
-        )
-        expected_json = {
-            "user": {
-                "id": user_id,
-                "name": "Silver Tester",
-                "email": "stester@email.com",
-            },
-            "overallAchievmentLevel": "Silver",
-        }
-        result = get_user_achievement_level(user_id)
-        self.assertDictEqual(result, expected_json)
+        result = get_user_achievement_level(bronze_lib["user"]["id"])
 
-    @patch("ps_challenge.controller.get_game_achievements")
-    @patch("ps_challenge.controller.get_user_library")
-    def test_get_user_achievement_level_gold(self, get_lib_mock, get_achieve_mock):
-        user_id = 4
-        get_lib_mock.return_value = gold_lib
-        get_achieve_mock.side_effect = generate_mock_achievement_list_json(
-            gold_lib["user"], gold_lib["ownedGames"], gold_completed_counts
-        )
-        expected_json = {
-            "user": {
-                "id": user_id,
-                "name": "Gold Tester",
-                "email": "gtester@email.com",
-            },
-            "overallAchievmentLevel": "Gold",
-        }
-        result = get_user_achievement_level(user_id)
         self.assertDictEqual(result, expected_json)
-
-    @patch("ps_challenge.controller.get_game_achievements")
-    @patch("ps_challenge.controller.get_user_library")
-    def test_get_user_achievement_level_platinum(self, get_lib_mock, get_achieve_mock):
-        user_id = 5
-        get_lib_mock.return_value = platinum_lib
-        get_achieve_mock.side_effect = generate_mock_achievement_list_json(
-            platinum_lib["user"], platinum_lib["ownedGames"], platinum_completed_counts
-        )
-        expected_json = {
-            "user": {
-                "id": user_id,
-                "name": "Platinum Tester",
-                "email": "ptester@email.com",
-            },
-            "overallAchievmentLevel": "Platinum",
-        }
-        result = get_user_achievement_level(user_id)
-        self.assertDictEqual(result, expected_json)
+        self.assertEqual(get_completed_mock.call_count, 1)
+        self.assertEqual(get_level_mock.call_count, 1)
 
     @patch("ps_challenge.controller.get_user_library")
     def test_get_user_achievement_level_404(self, get_lib_mock):
-        user_id = 1
         get_lib_mock.side_effect = UserDataNotFoundError("", 404)
 
         with self.assertRaises(UserDataNotFoundError) as error:
-            get_user_achievement_level(user_id)
+            get_user_achievement_level(1)
         self.assertEqual(error.exception.status_code, 404)
 
     @patch("ps_challenge.controller.get_user_library")
     def test_get_user_achievement_level_500(self, get_lib_mock):
-        user_id = 1
         get_lib_mock.side_effect = UserDataNotFoundError("", 500)
 
         with self.assertRaises(UserDataNotFoundError) as error:
-            get_user_achievement_level(user_id)
+            get_user_achievement_level(1)
         self.assertEqual(error.exception.status_code, 500)
 
     @patch("ps_challenge.controller.get_game_achievements")
@@ -186,3 +138,43 @@ class TestController(TestCase):
 
         self.assertEqual(error.exception.status_code, 404)
         self.assertEqual(get_achieve_mock.call_count, 1)
+
+    def test_calculate_achievement_level_bronze(self):
+        bronze_data = generate_mock_achievement_list_json(
+            bronze_lib["user"], bronze_lib["ownedGames"], bronze_completed_counts
+        )
+        expected_result = "Bronze"
+
+        result = calculate_achievement_level(bronze_data)
+
+        self.assertEqual(result, expected_result)
+
+    def test_calculate_achievement_level_silver(self):
+        silver_data = generate_mock_achievement_list_json(
+            silver_lib["user"], silver_lib["ownedGames"], silver_completed_counts
+        )
+        expected_result = "Silver"
+
+        result = calculate_achievement_level(silver_data)
+
+        self.assertEqual(result, expected_result)
+
+    def test_calculate_achievement_level_gold(self):
+        gold_data = generate_mock_achievement_list_json(
+            gold_lib["user"], gold_lib["ownedGames"], gold_completed_counts
+        )
+        expected_result = "Gold"
+
+        result = calculate_achievement_level(gold_data)
+
+        self.assertEqual(result, expected_result)
+
+    def test_calculate_achievement_level_platinum(self):
+        platinum_data = generate_mock_achievement_list_json(
+            platinum_lib["user"], platinum_lib["ownedGames"], platinum_completed_counts
+        )
+        expected_result = "Platinum"
+
+        result = calculate_achievement_level(platinum_data)
+
+        self.assertEqual(result, expected_result)

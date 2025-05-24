@@ -15,6 +15,8 @@ def get_user_achievement_level(user_id):
         full_achievement_data = get_user_completed_achievements(
             library["user"]["id"], library["ownedGames"]
         )
+        level = calculate_achievement_level(full_achievement_data)
+
     return {"user": library["user"], "overallAchievmentLevel": level}
 
 
@@ -37,5 +39,5 @@ def get_user_completed_achievements(user_id, games):
         raise err
 
 
-def calculate_achievement_level(games):
-    raise NotImplementedError
+def calculate_achievement_level(achievement_data):
+    return ""
