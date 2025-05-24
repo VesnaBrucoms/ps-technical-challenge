@@ -8,6 +8,8 @@ from ps_challenge.users import get_user_library
 from ps_challenge.users import get_game_achievements
 from ps_challenge.users import get_all_users
 from ps_challenge.exceptions import UserDataNotFoundError
+from test.mock_data.mock_libraries import bronze_lib
+from test.mock_data.mock_users import all_users
 
 url = "http://127.0.0.1:8080/"
 
@@ -16,29 +18,17 @@ class TestUsers(TestCase):
 
     @activate
     def test_get_all_users(self):
-        mock_json = [
-            {
-                "id": 1,
-                "name": "John Tester",
-                "email": "jtester@email.com",
-            },
-            {
-                "id": 2,
-                "name": "Bob Tester",
-                "email": "btester@email.com",
-            },
-        ]
         add(
             Response(
                 method="GET",
                 url=url + "users",
-                json=mock_json,
+                json=all_users,
             )
         )
 
         result = get_all_users()
 
-        self.assertEqual(mock_json, result)
+        self.assertEqual(all_users, result)
 
     @activate
     def test_get_all_users_500(self):
@@ -56,29 +46,17 @@ class TestUsers(TestCase):
 
     @activate
     def test_get_user_library(self):
-        user_id = 20
-        mock_json = {
-            "user": {
-                "id": user_id,
-                "name": "John Tester",
-                "email": "jtester@email.com",
-            },
-            "ownedGames": [
-                {"id": 0, "title": "Game 1", "totalAvailableAchievements": 20},
-                {"id": 1, "title": "Game 2", "totalAvailableAchievements": 15},
-            ],
-        }
         add(
             Response(
                 method="GET",
-                url=url + "users/" + str(user_id) + "/library",
-                json=mock_json,
+                url=url + "users/" + str(bronze_lib["user"]["id"]) + "/library",
+                json=bronze_lib,
             )
         )
 
-        result = get_user_library(user_id)
+        result = get_user_library(bronze_lib["user"]["id"])
 
-        self.assertDictEqual(mock_json, result)
+        self.assertDictEqual(bronze_lib, result)
 
     @activate
     def test_get_user_library_404(self):
