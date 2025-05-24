@@ -1,5 +1,9 @@
+import logging
+
 from ps_challenge.exceptions import UserDataNotFoundError
 from ps_challenge.users import get_all_users, get_game_achievements, get_user_library
+
+logger = logging.getLogger("ps_challenge.app")
 
 
 def get_all_users_achievement_levels(level_filter):
@@ -17,6 +21,7 @@ def get_user_achievement_level(user_id):
         )
         level = calculate_achievement_level(percentages)
 
+    logger.debug("User %s level set to %s", user_id, level)
     return {"user": library["user"], "overallAchievmentLevel": level}
 
 
