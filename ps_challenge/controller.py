@@ -1,3 +1,4 @@
+from ps_challenge.exceptions import UserDataNotFoundError
 from ps_challenge.users import get_all_users, get_game_achievements, get_user_library
 
 
@@ -11,9 +12,30 @@ def get_user_achievement_level(user_id):
     if len(library["ownedGames"]) <= 10:
         level = "None"
     else:
-        pass
+        full_achievement_data = get_user_completed_achievements(
+            library["user"]["id"], library["ownedGames"]
+        )
     return {"user": library["user"], "overallAchievmentLevel": level}
 
 
-def calculate_achievement_level(users_games):
+def get_user_completed_achievements(user_id, games):
+    try:
+        achievement_list = []
+        for game in games:
+            completed_count = get_game_achievements(user_id, game["id"])[
+                "totalCompletedAchievements"
+            ]
+            achievement_list.append(
+                {
+                    "gameId": game["id"],
+                    "totalAchievements": game["totalAvailableAchievements"],
+                    "completedAchievements": completed_count,
+                }
+            )
+        return achievement_list
+    except UserDataNotFoundError as err:
+        raise err
+
+
+def calculate_achievement_level(games):
     raise NotImplementedError

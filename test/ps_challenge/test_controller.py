@@ -4,10 +4,12 @@ from unittest.mock import patch
 from ps_challenge.controller import (
     get_all_users_achievement_levels,
     get_user_achievement_level,
+    get_user_completed_achievements,
 )
 from ps_challenge.exceptions import UserDataNotFoundError
 from test.mock_data.mock_achievements import (
     generate_mock_achievement_list_json,
+    generate_mock_achievement_json,
     none_completed_counts,
     bronze_completed_counts,
     silver_completed_counts,
@@ -156,3 +158,31 @@ class TestController(TestCase):
         with self.assertRaises(UserDataNotFoundError) as error:
             get_user_achievement_level(user_id)
         self.assertEqual(error.exception.status_code, 500)
+
+    @patch("ps_challenge.controller.get_game_achievements")
+    def test_get_user_completed_achievements(self, get_achieve_mock):
+        get_achieve_mock.side_effect = generate_mock_achievement_list_json(
+            none_lib["user"], none_lib["ownedGames"], none_completed_counts
+        )
+        expected_json = [
+            {"gameId": 0, "totalAchievements": 20, "completedAchievements": 1},
+            {"gameId": 0, "totalAchievements": 20, "completedAchievements": 2},
+            {"gameId": 0, "totalAchievements": 20, "completedAchievements": 3},
+            {"gameId": 0, "totalAchievements": 20, "completedAchievements": 4},
+            {"gameId": 0, "totalAchievements": 20, "completedAchievements": 5},
+        ]
+        result = get_user_completed_achievements(
+            none_lib["user"], none_lib["ownedGames"]
+        )
+
+        self.assertEqual(result, expected_json)
+        self.assertEqual(get_achieve_mock.call_count, 5)
+
+    @patch("ps_challenge.controller.get_game_achievements")
+    def test_get_user_completed_achievements_404(self, get_achieve_mock):
+        get_achieve_mock.side_effect = UserDataNotFoundError("", 404)
+        with self.assertRaises(UserDataNotFoundError) as error:
+            get_user_completed_achievements(none_lib["user"], none_lib["ownedGames"])
+
+        self.assertEqual(error.exception.status_code, 404)
+        self.assertEqual(get_achieve_mock.call_count, 1)
