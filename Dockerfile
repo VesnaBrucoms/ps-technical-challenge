@@ -1,6 +1,10 @@
 FROM python:3.11.12-alpine
 
-COPY . /tmp/challenge
-RUN pip install /tmp/challenge
+COPY . /tmp/ps-challenge
+RUN pip install /tmp/ps-challenge/.
 
-CMD flask run --host=0.0.0.0
+RUN rm -rf /tmp/ps-challenge
+
+EXPOSE 5000
+
+CMD ["flask", "--app", "ps_challenge.app", "run", "--host=0.0.0.0"]

@@ -17,7 +17,7 @@ I sent a clarification email at noon on Friday, however it was late in the week 
 understandably would not receive a response in time.
 
 As such I have proceeded with the assumption that all thresholds are exclusive, to be in line with the clear
-exclusive `Bronze` level criteria.
+exclusive `Bronze` level criteria. Primarily to ensure consistency across all level criteria.
 
 If I have time I will implement a simple switch to allow running the API in inclusive or exlusive modes, with
 the default setting being exclusive.
@@ -41,11 +41,12 @@ A handful of others are ambiguous. For example, is The Elder Scrolls V: Skyrim r
 available to the PS4 and PS5, or the original PS3 version (honestly can't remember if the PS4 is BC with
 PS3 games (IIRC not due to the widely differing CPU architectures))?
 
-I asked in the same email mentioned in the [Inclusive vs Exclusive Thresholds](./key-assumptions.md#inclusive-vs-exclusive-thresholds) section. Largely around if extra handling needs to be performed, or if this is simply a case of engineers
-filling out example datasets with their favourite games (I've inputted many a *John 117* in my time!).
+I asked for clarification in the same email mentioned in the [Inclusive vs Exclusive Thresholds](./key-assumptions.md#inclusive-vs-exclusive-thresholds) section. Largely around if extra handling needs to be performed, or if this
+is simply a case of engineers filling out example datasets with their favourite games (I've inputted many a
+*John 117* in my time!).
 
 I've proceeded with the assumption that these are simply there to fill out the dataset.
 
 **Previous page:** [Data](./data.md)
 
-**Next page:** [Key Assumptions](./key-assumptions.md)
+**Next page:** [Future Changes](./future-changes.md)

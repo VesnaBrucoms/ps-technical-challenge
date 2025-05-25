@@ -28,6 +28,12 @@ Run with the development server:
 
 Access on `http://127.0.0.1:5000/`.
 
+To instead run without debug mode:
+
+    flask --app ps_challenge.app run --host=0.0.0.0
+
+The Dockerfile uses this for the container to run with.
+
 ### Testing
 
     python -m unittest -v
@@ -38,4 +44,10 @@ Access on `http://127.0.0.1:5000/`.
 
 ### Docker
 
-    docker build .
+Build this project's image tagged as `ps-technical-challenge`:
+
+    docker build -t ps-technical-challenge .
+
+To list images:
+
+    docker image list
