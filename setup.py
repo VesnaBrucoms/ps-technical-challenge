@@ -7,7 +7,7 @@ setup(
     install_requires=[
         "Flask==3.1.1",
         "pydantic==2.11.4",
-        "flask-openapi3==4.1.0",
+        "flask-swagger-ui==5.21.0",
         "requests==2.32.3",
     ],
     packages=find_packages(exclude=["docs", "tests"]),

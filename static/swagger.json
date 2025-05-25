@@ -1,0 +1,113 @@
+{
+    "openapi": "3.0.4",
+    "info": {
+        "title": "PlayStation Tech Challenge API",
+        "description": "",
+        "version": "0.0.1"
+    },
+    "paths": {
+        "/users": {
+            "get": {
+                "summary": "Returns a list of all users with their achievement level.",
+                "parameters": [
+                    {
+                        "name": "level",
+                        "in": "query",
+                        "description": "User ID",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": ["bronze", "silver", "gold", "platinum"]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A JSON array of User Achievement Level objects.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User Achievement Level"
+                                    }
+                                },
+                                "example": {
+                                    "user": {
+                                        "id": 1,
+                                        "name": "Bronze Tester",
+                                        "email": "btester@email.com"
+                                    },
+                                    "overallAchievementLevel": "Bronze"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}": {
+            "get": {
+                "summary": "Return a single user with their achievement level.",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A single User Achievement Level object.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User Achievement Level"
+                                },
+                                "example": {
+                                    "user": {
+                                        "id": 1,
+                                        "name": "Bronze Tester",
+                                        "email": "btester@email.com"
+                                    },
+                                    "overallAchievementLevel": "Bronze"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User Achievement Level": {
+                "type": "object",
+                "properties": {
+                    "user": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "email": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "overallAchievementLevel": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

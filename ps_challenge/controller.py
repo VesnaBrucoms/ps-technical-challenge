@@ -16,7 +16,7 @@ def get_all_users_achievement_levels(level_filter):
     for user in all_users:
         user_level = get_user_achievement_level(user["id"])
         if level_filter is not None:
-            if user_level["overallAchievmentLevel"] == level_filter:
+            if user_level["overallAchievmentLevel"] == level_filter.capitalize():
                 all_levels.append(user_level)
         else:
             all_levels.append(user_level)
