@@ -1,6 +1,8 @@
 # PlayStation Technical Challenge
 
-For information on [design](./docs/design/index.md).
+For information on design see the [design section of the docs](./docs/design/index.md). Of particular
+importance is the [Key Assumptions](./docs/design/key-assumptions.md) page which has a potential impact
+on the correctness of the solution.
 
 ## Getting Started
 
