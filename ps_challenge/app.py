@@ -27,6 +27,7 @@ app.register_blueprint(SWAGGERUI_BLUEPRINT)
 
 @app.get("/users")
 def get_all_users_levels():
+    """GET endpoint to return all users with their achievement level calculated."""
     try:
         app.logger.info("Get all users")
         return get_all_users_achievement_levels(request.args.get("level", None))
@@ -39,6 +40,7 @@ def get_all_users_levels():
 
 @app.get("/users/<int:user_id>")
 def get_user_level(user_id):
+    """GET endpoint to return a user with their achievement level calculated."""
     try:
         app.logger.info("Get user with ID %s", user_id)
         return get_user_achievement_level(user_id)

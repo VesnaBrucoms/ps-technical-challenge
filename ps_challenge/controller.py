@@ -9,6 +9,11 @@ logger = logging.getLogger("ps_challenge.app")
 
 
 def get_all_users_achievement_levels(level_filter):
+    """Builds and returns a list of all users and their levels.
+
+    Arguments:
+    level_filter -- (str) Achievement level to filter for
+    """
     if level_filter is not None:
         logger.debug("Filtering to users with level {}".format(level_filter))
     else:
@@ -32,21 +37,32 @@ def get_all_users_achievement_levels(level_filter):
 
 
 def get_user_achievement_level(user_id):
+    """Builds and returns a single user and their level.
+
+    Arguments:
+    user_id -- (str) The specific user's ID
+    """
     library = get_user_library(user_id)
     level = ""
     if len(library["ownedGames"]) <= 10:
         level = "None"
     else:
-        percentages = get_user_completed_percentages(
+        percentages = _get_user_completed_percentages(
             library["user"]["id"], library["ownedGames"]
         )
-        level = calculate_achievement_level(percentages)
+        level = _calculate_achievement_level(percentages)
 
     logger.debug("User %s level set to %s", user_id, level)
-    return {"user": library["user"], "overallAchievmentLevel": level}
+    return {"user": library["user"], "overallAchievementLevel": level}
 
 
-def get_user_completed_percentages(user_id, games):
+def _get_user_completed_percentages(user_id, games):
+    """Returns calculated completion percentages for each game and what thresholds have been met.
+
+    Arguments:
+    user_id -- (int) User's ID to perform the calculation for
+    games -- (list) List of given user's game library
+    """
     try:
         achievement_list = []
         is_100 = True
@@ -81,7 +97,12 @@ def get_user_completed_percentages(user_id, games):
         raise err
 
 
-def calculate_achievement_level(achievement_data):
+def _calculate_achievement_level(achievement_data):
+    """Returns the achievement level by checking user's data against CRITERIA_THRESHOLDS.
+
+    Arguments:
+    achievement_data -- (obj) Contains calculated completion percentages and what thresholds have been met
+    """
     level = ""
     for threshold in CRITERIA_THRESHOLDS:
         if (

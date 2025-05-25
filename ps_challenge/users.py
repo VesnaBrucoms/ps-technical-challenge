@@ -10,6 +10,7 @@ url = ps_challenge.config.users_api_url
 
 
 def get_all_users():
+    """Returns a list of user objects from the configured API."""
     endpoint = url + "users"
     logger.debug("Getting all users from endpoint {}".format(endpoint))
 
@@ -23,7 +24,12 @@ def get_all_users():
 
 
 def get_user_library(user_id):
-    endpoint = url + "users/" + str(user_id) + "/library"
+    """Returns a single user games library from the configured API.
+
+    Arguments:
+    user_id -- (str) Unique ID for the specific user's library
+    """
+    endpoint = "{}users/{}/library".format(url, user_id)
     logger.debug("Getting user library from endpoint {}".format(endpoint))
 
     r = requests.get(endpoint)
@@ -40,7 +46,13 @@ def get_user_library(user_id):
 
 
 def get_game_achievements(user_id, game_id):
-    endpoint = url + "users/" + str(user_id) + "/achievements/" + str(game_id)
+    """Returns a single user's completed achievements for one game from the configured API.
+
+    Arguments:
+    user_id -- (str) Unique ID for the specific user
+    game_id -- (str) Unique ID for the specific game
+    """
+    endpoint = "{}users/{}/achievements/{}".format(url, user_id, game_id)
     logger.debug(
         "Getting user game completed achievements from endpoint {}".format(endpoint)
     )
