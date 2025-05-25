@@ -48,7 +48,7 @@ class TestController(TestCase):
             }
         ] * 5
 
-        result = get_all_users_achievement_levels("None")
+        result = get_all_users_achievement_levels(None)
 
         self.assertListEqual(result, expected_json)
         self.assertEqual(get_all_mock.call_count, 1)

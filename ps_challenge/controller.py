@@ -7,10 +7,19 @@ logger = logging.getLogger("ps_challenge.app")
 
 
 def get_all_users_achievement_levels(level_filter):
+    if level_filter is not None:
+        logger.debug("Getting all users, and filtering for {}".format(level_filter))
+    else:
+        logger.debug("Getting all users with no filter")
     all_users = get_all_users()
     all_levels = []
     for user in all_users:
-        all_levels.append(get_user_achievement_level(user["id"]))
+        user_level = get_user_achievement_level(user["id"])
+        if level_filter is not None:
+            if user_level["overallAchievmentLevel"] == level_filter:
+                all_levels.append(user_level)
+        else:
+            all_levels.append(user_level)
     return all_levels
 
 
