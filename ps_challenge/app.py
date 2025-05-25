@@ -1,9 +1,10 @@
 import json
 import logging
 
-from flask import Flask, make_response, request, send_file
+from flask import Flask, make_response, request
 from flask_swagger_ui import get_swaggerui_blueprint
 
+import ps_challenge.config
 from ps_challenge.controller import (
     get_user_achievement_level,
     get_all_users_achievement_levels,
@@ -11,20 +12,17 @@ from ps_challenge.controller import (
 from ps_challenge.exceptions import UserDataNotFoundError
 
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=ps_challenge.config.log_level)
 
 app = Flask(__name__)
 
-
-SWAGGER_JSON = json.load(open("static/swagger.json", "r"))
-
-swaggerui_blueprint = get_swaggerui_blueprint(
+SWAGGER_JSON = json.load(open(ps_challenge.config.swagger_json_path, "r"))
+SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
     "/docs",
     "/swagger.json",
     config={"spec": SWAGGER_JSON},
 )
-
-app.register_blueprint(swaggerui_blueprint)
+app.register_blueprint(SWAGGERUI_BLUEPRINT)
 
 
 @app.get("/users")
