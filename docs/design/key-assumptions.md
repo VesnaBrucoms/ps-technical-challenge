@@ -22,6 +22,14 @@ exclusive `Bronze` level criteria. Primarily to ensure consistency across all le
 If I have time I will implement a simple switch to allow running the API in inclusive or exlusive modes, with
 the default setting being exclusive.
 
+I have also manually checked each user's number of games and completed percentages and I have identified the
+following users that would flip:
+
+ID, Name, inclusive/exclusive calc'd levels, (reason)
+
+* ID: 7, Name: Grace - Gold/Silver (exactly 25 games)
+* ID: 9, Name: Ivy - Gold/Silver (many titles with exactly 80% completion)
+
 ## Non PlayStation Games
 
 During my run through to understand the API I spotted that the dataset user libraries contain Nintendo and
@@ -46,6 +54,8 @@ is simply a case of engineers filling out example datasets with their favourite 
 *John 117* in my time!).
 
 I've proceeded with the assumption that these are simply there to fill out the dataset.
+
+If I have the time I will add an additional query param to filter out the non-PlayStation games.
 
 **Previous page:** [Data](./data.md)
 
