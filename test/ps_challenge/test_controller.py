@@ -122,25 +122,20 @@ class TestController(TestCase):
         get_achieve_mock.side_effect = generate_mock_achievement_list_json(
             bronze_lib["user"], bronze_lib["ownedGames"], bronze_completed_counts
         )
-        expected_json = {
-            "games": [
-                {"gameId": 0, "completedPercentage": 0.05},
-                {"gameId": 0, "completedPercentage": 0.1},
-                {"gameId": 0, "completedPercentage": 0.15},
-                {"gameId": 0, "completedPercentage": 0.2},
-                {"gameId": 0, "completedPercentage": 0.25},
-                {"gameId": 0, "completedPercentage": 0.05},
-                {"gameId": 0, "completedPercentage": 0.1},
-                {"gameId": 0, "completedPercentage": 0.15},
-                {"gameId": 0, "completedPercentage": 0.2},
-                {"gameId": 0, "completedPercentage": 0.25},
-                {"gameId": 0, "completedPercentage": 0.05},
-                {"gameId": 0, "completedPercentage": 0.75},
-            ],
-            "is100": False,
-            "isOver80": False,
-            "isOver75": False,
-        }
+        expected_json = [
+            {"gameId": 0, "completedPercentage": 0.05},
+            {"gameId": 0, "completedPercentage": 0.1},
+            {"gameId": 0, "completedPercentage": 0.15},
+            {"gameId": 0, "completedPercentage": 0.2},
+            {"gameId": 0, "completedPercentage": 0.25},
+            {"gameId": 0, "completedPercentage": 0.05},
+            {"gameId": 0, "completedPercentage": 0.1},
+            {"gameId": 0, "completedPercentage": 0.15},
+            {"gameId": 0, "completedPercentage": 0.2},
+            {"gameId": 0, "completedPercentage": 0.25},
+            {"gameId": 0, "completedPercentage": 0.05},
+            {"gameId": 0, "completedPercentage": 0.75},
+        ]
 
         result = _get_user_completed_percentages(
             bronze_lib["user"], bronze_lib["ownedGames"]
@@ -154,25 +149,20 @@ class TestController(TestCase):
         get_achieve_mock.side_effect = generate_mock_achievement_list_json(
             silver_lib["user"], silver_lib["ownedGames"], silver_completed_counts
         )
-        expected_json = {
-            "games": [
-                {"gameId": 0, "completedPercentage": 0.8},
-                {"gameId": 0, "completedPercentage": 0.8},
-                {"gameId": 0, "completedPercentage": 0.8},
-                {"gameId": 0, "completedPercentage": 0.8},
-                {"gameId": 0, "completedPercentage": 0.8},
-                {"gameId": 0, "completedPercentage": 0.8},
-                {"gameId": 0, "completedPercentage": 0.8},
-                {"gameId": 0, "completedPercentage": 0.8},
-                {"gameId": 0, "completedPercentage": 0.8},
-                {"gameId": 0, "completedPercentage": 0.8},
-                {"gameId": 0, "completedPercentage": 0.8},
-                {"gameId": 0, "completedPercentage": 0.8},
-            ],
-            "is100": False,
-            "isOver80": False,
-            "isOver75": True,
-        }
+        expected_json = [
+            {"gameId": 0, "completedPercentage": 0.8},
+            {"gameId": 0, "completedPercentage": 0.8},
+            {"gameId": 0, "completedPercentage": 0.8},
+            {"gameId": 0, "completedPercentage": 0.8},
+            {"gameId": 0, "completedPercentage": 0.8},
+            {"gameId": 0, "completedPercentage": 0.8},
+            {"gameId": 0, "completedPercentage": 0.8},
+            {"gameId": 0, "completedPercentage": 0.8},
+            {"gameId": 0, "completedPercentage": 0.8},
+            {"gameId": 0, "completedPercentage": 0.8},
+            {"gameId": 0, "completedPercentage": 0.8},
+            {"gameId": 0, "completedPercentage": 0.8},
+        ]
 
         result = _get_user_completed_percentages(
             silver_lib["user"], silver_lib["ownedGames"]
@@ -191,14 +181,9 @@ class TestController(TestCase):
         self.assertEqual(get_achieve_mock.call_count, 1)
 
     def test__calculate_achievement_level_bronze(self):
-        bronze_data = {
-            "games": generate_mock_percent_list_json(
-                bronze_lib["user"], bronze_lib["ownedGames"], bronze_completed_counts
-            ),
-            "is100": False,
-            "isOver80": False,
-            "isOver75": False,
-        }
+        bronze_data = generate_mock_percent_list_json(
+            bronze_lib["user"], bronze_lib["ownedGames"], bronze_completed_counts
+        )
         expected_result = "Bronze"
 
         result = _calculate_achievement_level(bronze_data)
@@ -206,14 +191,9 @@ class TestController(TestCase):
         self.assertEqual(result, expected_result)
 
     def test__calculate_achievement_level_silver(self):
-        silver_data = {
-            "games": generate_mock_percent_list_json(
-                silver_lib["user"], silver_lib["ownedGames"], silver_completed_counts
-            ),
-            "is100": False,
-            "isOver80": False,
-            "isOver75": True,
-        }
+        silver_data = generate_mock_percent_list_json(
+            silver_lib["user"], silver_lib["ownedGames"], silver_completed_counts
+        )
         expected_result = "Silver"
 
         result = _calculate_achievement_level(silver_data)
@@ -221,14 +201,9 @@ class TestController(TestCase):
         self.assertEqual(result, expected_result)
 
     def test__calculate_achievement_level_gold(self):
-        gold_data = {
-            "games": generate_mock_percent_list_json(
-                gold_lib["user"], gold_lib["ownedGames"], gold_completed_counts
-            ),
-            "is100": False,
-            "isOver80": True,
-            "isOver75": True,
-        }
+        gold_data = generate_mock_percent_list_json(
+            gold_lib["user"], gold_lib["ownedGames"], gold_completed_counts
+        )
         expected_result = "Gold"
 
         result = _calculate_achievement_level(gold_data)
@@ -236,16 +211,11 @@ class TestController(TestCase):
         self.assertEqual(result, expected_result)
 
     def test__calculate_achievement_level_platinum(self):
-        platinum_data = {
-            "games": generate_mock_percent_list_json(
-                platinum_lib["user"],
-                platinum_lib["ownedGames"],
-                platinum_completed_counts,
-            ),
-            "is100": True,
-            "isOver80": True,
-            "isOver75": True,
-        }
+        platinum_data = generate_mock_percent_list_json(
+            platinum_lib["user"],
+            platinum_lib["ownedGames"],
+            platinum_completed_counts,
+        )
         expected_result = "Platinum"
 
         result = _calculate_achievement_level(platinum_data)

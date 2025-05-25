@@ -25,7 +25,7 @@ def get_all_users_achievement_levels(level_filter):
     for user in all_users:
         user_level = get_user_achievement_level(user["id"])
         if level_filter is not None:
-            if user_level["overallAchievmentLevel"] == level_filter.capitalize():
+            if user_level["overallAchievementLevel"] == level_filter.capitalize():
                 all_levels.append(user_level)
             else:
                 logger.debug("Filtered out user with ID {}".format(user["id"]))
@@ -65,9 +65,6 @@ def _get_user_completed_percentages(user_id, games):
     """
     try:
         achievement_list = []
-        is_100 = True
-        is_over_80 = True
-        is_over_75 = True
         for game in games:
             completed_count = get_game_achievements(user_id, game["id"])[
                 "totalCompletedAchievements"
@@ -80,19 +77,7 @@ def _get_user_completed_percentages(user_id, games):
                 }
             )
 
-            if completed_percentage < 100:
-                is_100 = False
-            if completed_percentage <= 0.8:
-                is_over_80 = False
-            if completed_percentage <= 0.75:
-                is_over_75 = False
-
-        return {
-            "games": achievement_list,
-            "is100": is_100,
-            "isOver80": is_over_80,
-            "isOver75": is_over_75,
-        }
+        return achievement_list
     except UserDataNotFoundError as err:
         raise err
 
@@ -103,13 +88,24 @@ def _calculate_achievement_level(achievement_data):
     Arguments:
     achievement_data -- (obj) Contains calculated completion percentages and what thresholds have been met
     """
+    is_100 = True
+    is_over_80 = True
+    is_over_75 = True
+    for data in achievement_data:
+        if data["completedPercentage"] < 1:
+            is_100 = False
+        if data["completedPercentage"] <= 0.8:
+            is_over_80 = False
+        if data["completedPercentage"] <= 0.75:
+            is_over_75 = False
+
     level = ""
     for threshold in CRITERIA_THRESHOLDS:
         if (
-            len(achievement_data["games"]) > threshold[0]
-            and achievement_data["is100"] == threshold[1]
-            and achievement_data["isOver80"] == threshold[2]
-            and achievement_data["isOver75"] == threshold[3]
+            len(achievement_data) > threshold[0]
+            and is_100 == threshold[1]
+            and is_over_80 == threshold[2]
+            and is_over_75 == threshold[3]
         ):
             level = threshold[4]
 
