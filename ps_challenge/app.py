@@ -28,7 +28,7 @@ app.register_blueprint(SWAGGERUI_BLUEPRINT)
 @app.get("/users")
 def get_all_users_levels():
     try:
-        app.logger.info("Received get for all users")
+        app.logger.info("Get all users")
         return get_all_users_achievement_levels(request.args.get("level", None))
     except UserDataNotFoundError as err:
         resp = make_response(
@@ -40,7 +40,7 @@ def get_all_users_levels():
 @app.get("/users/<int:user_id>")
 def get_user_level(user_id):
     try:
-        app.logger.info("Received get for user with ID %s", user_id)
+        app.logger.info("Get user with ID %s", user_id)
         return get_user_achievement_level(user_id)
     except UserDataNotFoundError as err:
         resp = make_response(

@@ -130,4 +130,4 @@ users are problematic.
 
 **Previous page:** [Endpoints](./endpoints.md)
 
-**Next page:** [Key Assumptions](./key-assumptions.md)
+**Next page:** [Configuration](./configuration.md)

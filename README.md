@@ -4,6 +4,8 @@ For information on design see the [design section of the docs](./docs/design/ind
 importance is the [Key Assumptions](./docs/design/key-assumptions.md) page which has a potential impact
 on the correctness of the solution.
 
+For thoughts on technology choices see the [Tech Choices](./docs/tech-choices.md) page.
+
 ## Endpoints
 
 * Get all users: `/users`

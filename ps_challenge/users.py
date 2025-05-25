@@ -10,37 +10,51 @@ url = ps_challenge.config.users_api_url
 
 
 def get_all_users():
-    r = requests.get(url + "users")
+    endpoint = url + "users"
+    logger.debug("Getting all users from endpoint {}".format(endpoint))
+
+    r = requests.get(endpoint)
     if r.status_code != 200:
-        msg = "An error occured when getting all users"
+        msg = "Error received from users API"
         logger.error(msg)
         raise UserDataNotFoundError(msg, r.status_code)
+
     return r.json()
 
 
 def get_user_library(user_id):
-    r = requests.get(url + "users/" + str(user_id) + "/library")
+    endpoint = url + "users/" + str(user_id) + "/library"
+    logger.debug("Getting user library from endpoint {}".format(endpoint))
+
+    r = requests.get(endpoint)
     if r.status_code == 404:
-        msg = "Getting user library with ID {} could not be found".format(user_id)
+        msg = "Not found error from users API ID {}".format(user_id)
         logger.error(msg)
         raise UserDataNotFoundError(msg, r.status_code)
     elif r.status_code != 200:
-        msg = "Getting user library with ID {} encountered an error".format(user_id)
+        msg = "Error received from users API with ID {}".format(user_id)
         logger.error(msg)
         raise UserDataNotFoundError(msg, r.status_code)
+
     return r.json()
 
 
 def get_game_achievements(user_id, game_id):
-    r = requests.get(url + "users/" + str(user_id) + "/achievements/" + str(game_id))
+    endpoint = url + "users/" + str(user_id) + "/achievements/" + str(game_id)
+    logger.debug(
+        "Getting user game completed achievements from endpoint {}".format(endpoint)
+    )
+
+    r = requests.get(endpoint)
     if r.status_code == 404:
-        msg = "Getting user achievements with ID {} or game with ID {} could not be found".format(
+        msg = "Not found error from users API with user ID {} and game ID {}".format(
             user_id, game_id
         )
         raise UserDataNotFoundError(msg, r.status_code)
     elif r.status_code != 200:
-        msg = "Getting user achievements with ID {} or game with ID {} encountered an error".format(
+        msg = "Error received from users API with user ID {} and game ID {}".format(
             user_id, game_id
         )
         raise UserDataNotFoundError(msg, r.status_code)
+
     return r.json()

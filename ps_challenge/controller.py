@@ -1,5 +1,7 @@
 import logging
+import time
 
+from ps_challenge.config import CRITERIA_THRESHOLDS
 from ps_challenge.exceptions import UserDataNotFoundError
 from ps_challenge.users import get_all_users, get_game_achievements, get_user_library
 
@@ -8,9 +10,11 @@ logger = logging.getLogger("ps_challenge.app")
 
 def get_all_users_achievement_levels(level_filter):
     if level_filter is not None:
-        logger.debug("Getting all users, and filtering for {}".format(level_filter))
+        logger.debug("Filtering to users with level {}".format(level_filter))
     else:
-        logger.debug("Getting all users with no filter")
+        logger.debug("No filtering")
+    start_time = time.time()
+
     all_users = get_all_users()
     all_levels = []
     for user in all_users:
@@ -18,8 +22,12 @@ def get_all_users_achievement_levels(level_filter):
         if level_filter is not None:
             if user_level["overallAchievmentLevel"] == level_filter.capitalize():
                 all_levels.append(user_level)
+            else:
+                logger.debug("Filtered out user with ID {}".format(user["id"]))
         else:
             all_levels.append(user_level)
+
+    logger.debug("Completed in {} seconds".format(time.time() - start_time))
     return all_levels
 
 
@@ -75,13 +83,7 @@ def get_user_completed_percentages(user_id, games):
 
 def calculate_achievement_level(achievement_data):
     level = ""
-    thresholds = (
-        (50, True, True, True, "Platinum"),
-        (25, False, True, True, "Gold"),
-        (10, False, False, True, "Silver"),
-        (10, False, False, False, "Bronze"),
-    )
-    for threshold in thresholds:
+    for threshold in CRITERIA_THRESHOLDS:
         if (
             len(achievement_data["games"]) > threshold[0]
             and achievement_data["is100"] == threshold[1]
@@ -89,4 +91,5 @@ def calculate_achievement_level(achievement_data):
             and achievement_data["isOver75"] == threshold[3]
         ):
             level = threshold[4]
+
     return level
