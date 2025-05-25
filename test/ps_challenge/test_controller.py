@@ -50,7 +50,9 @@ class TestController(TestCase):
 
         result = get_all_users_achievement_levels("None")
 
-        self.assertDictEqual(result, expected_json)
+        self.assertListEqual(result, expected_json)
+        self.assertEqual(get_all_mock.call_count, 1)
+        self.assertEqual(get_level_mock.call_count, 5)
 
     @patch("ps_challenge.controller.calculate_achievement_level")
     @patch("ps_challenge.controller.get_user_completed_percentages")

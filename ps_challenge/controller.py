@@ -7,7 +7,11 @@ logger = logging.getLogger("ps_challenge.app")
 
 
 def get_all_users_achievement_levels(level_filter):
-    raise NotImplementedError
+    all_users = get_all_users()
+    all_levels = []
+    for user in all_users:
+        all_levels.append(get_user_achievement_level(user["id"]))
+    return all_levels
 
 
 def get_user_achievement_level(user_id):

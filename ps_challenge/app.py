@@ -2,7 +2,10 @@ import logging
 
 from flask import Flask, make_response
 
-from ps_challenge.controller import get_user_achievement_level
+from ps_challenge.controller import (
+    get_user_achievement_level,
+    get_all_users_achievement_levels,
+)
 from ps_challenge.exceptions import UserDataNotFoundError
 
 
@@ -15,7 +18,7 @@ app = Flask(__name__)
 def get_all_users_levels():
     try:
         app.logger.info("Received get for all users")
-        return {}
+        return get_all_users_achievement_levels("")
     except UserDataNotFoundError as err:
         resp = make_response(
             {"message": err.msg, "status_code": err.status_code}, err.status_code
