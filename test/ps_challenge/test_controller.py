@@ -24,27 +24,32 @@ from test.mock_data.mock_libraries import (
     gold_lib,
     platinum_lib,
 )
+from test.mock_data.mock_users import all_users
 
 
 class TestController(TestCase):
 
-    @patch("ps_challenge.controller.get_game_achievements")
-    @patch("ps_challenge.controller.get_user_library")
+    @patch("ps_challenge.controller.get_user_achievement_level")
     @patch("ps_challenge.controller.get_all_users")
-    def test_get_all_users_achievement_levels(
-        self, get_all_mock, get_lib_mock, get_achieve_mock
-    ):
+    def test_get_all_users_achievement_levels(self, get_all_mock, get_level_mock):
+        get_all_mock.return_value = all_users
+        get_level_mock.return_value = {
+            "user": all_users[1],
+            "overallAchievmentLevel": "Bronze",
+        }
         expected_json = [
             {
-                "user": {"id": 1, "name": "John Tester", "email": "jtester@email.com"},
+                "user": {
+                    "id": 2,
+                    "name": "Bronze Tester",
+                    "email": "btester@email.com",
+                },
                 "overallAchievmentLevel": "Bronze",
-            },
-            {
-                "user": {"id": 2, "name": "Bob Tester", "email": "btester@email.com"},
-                "overallAchievmentLevel": "Platinum",
-            },
-        ]
-        result = get_all_users_achievement_levels()
+            }
+        ] * 5
+
+        result = get_all_users_achievement_levels("None")
+
         self.assertDictEqual(result, expected_json)
 
     @patch("ps_challenge.controller.calculate_achievement_level")
