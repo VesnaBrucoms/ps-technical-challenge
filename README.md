@@ -4,6 +4,13 @@ For information on design see the [design section of the docs](./docs/design/ind
 importance is the [Key Assumptions](./docs/design/key-assumptions.md) page which has a potential impact
 on the correctness of the solution.
 
+## Endpoints
+
+* Get all users: `/users`
+  * Filter by level: `/users?level=bronze` 
+* Get single user: `/users/{user_id}`
+* API docs: `/docs`
+
 ## Getting Started
 
 ### Setup and Run

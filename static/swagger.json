@@ -86,22 +86,25 @@
     },
     "components": {
         "schemas": {
+            "User": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    }
+                }
+            },
             "User Achievement Level": {
                 "type": "object",
                 "properties": {
                     "user": {
-                        "type": "object",
-                        "properties": {
-                            "id": {
-                                "type": "integer"
-                            },
-                            "name": {
-                                "type": "string"
-                            },
-                            "email": {
-                                "type": "string"
-                            }
-                        }
+                        "$ref": "#/components/schemas/User"
                     },
                     "overallAchievementLevel": {
                         "type": "string"

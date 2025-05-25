@@ -19,8 +19,8 @@ app = Flask(__name__)
 SWAGGER_JSON = json.load(open("static/swagger.json", "r"))
 
 swaggerui_blueprint = get_swaggerui_blueprint(
-    "/api/docs",
-    "/api/swagger.json",
+    "/docs",
+    "/swagger.json",
     config={"spec": SWAGGER_JSON},
 )
 
