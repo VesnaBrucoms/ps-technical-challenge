@@ -5,11 +5,15 @@ from ps_challenge.config import CRITERIA_THRESHOLDS
 from ps_challenge.exceptions import UserDataNotFoundError
 from ps_challenge.users import get_all_users, get_game_achievements, get_user_library
 
+
 logger = logging.getLogger("ps_challenge.app")
 
 
 def get_all_users_achievement_levels(level_filter):
     """Builds and returns a list of all users and their levels.
+
+    This is a naive implementation that does not handle large datasets well. See the [design docs
+    page](../docs/design/future-changes.md#Async) for more info on what could be improved here.
 
     Arguments:
     level_filter -- (str) Achievement level to filter for

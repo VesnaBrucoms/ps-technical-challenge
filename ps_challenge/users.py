@@ -4,8 +4,8 @@ import requests
 import ps_challenge.config
 from ps_challenge.exceptions import UserDataNotFoundError
 
-logger = logging.getLogger("ps_challenge.app")
 
+logger = logging.getLogger("ps_challenge.app")
 url = ps_challenge.config.users_api_url
 
 
