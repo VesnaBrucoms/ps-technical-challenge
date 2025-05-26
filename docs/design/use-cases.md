@@ -6,7 +6,7 @@ I can think of at least three use cases for this service:
 2. Retrieve achievement levels for all users
 3. Retrieve all users of a specific level
 
-Use case 1 covers a scenarios like needing to check or view that one specific user's level. Such as the end
+Use case 1 covers a scenario like needing to check or view that one specific user's level. Such as the end
 user themselves accessing the relevant page.
 
 Use case 2 covers another backend service requiring all user levels to perform additional functions. Perhaps
@@ -25,7 +25,7 @@ A fourth use case might be to exclude non-PlayStation titles from a user's libra
 account wide achievement level.
 
 As a key assumption is that they only exist to fill out the dataset (see [relevant page](./key-assumptions.md#non-playstation-games)),
-this will implemented as an optional filter on both endpoints.
+this will be implemented as an optional filter on both endpoints.
 
 **Previous page:** [Overview](./overview.md)
 

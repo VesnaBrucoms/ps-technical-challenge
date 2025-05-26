@@ -123,4 +123,6 @@ Some possible metrics to send to something like Prometheus:
 * get_all_users_levels_duration
 * get_user_level_duration
 
-For internal monitoring then something Kibana or Grafana would be suitable.
+For internal monitoring then something like Kibana or Grafana would be suitable.
+
+**Previous page:** [Key Assumptions](./key-assumptions.md)

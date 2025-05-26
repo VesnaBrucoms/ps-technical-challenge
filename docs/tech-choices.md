@@ -19,7 +19,7 @@ I'm familiar with it, it's lightweight and thus very fast to get up and running.
 
 #### Swagger UI
 
-Again, I;m familiar with it. Plus as the test API also uses Swagger docs, choosing it for this API brings
+Again, I'm familiar with it. Plus as the test API also uses Swagger docs, choosing it for this API brings
 consistency, which in turn improves developer/maintainer/user experience.
 
 #### Black Formatter

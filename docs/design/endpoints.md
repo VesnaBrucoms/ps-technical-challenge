@@ -24,7 +24,7 @@ Returns single user by given ID with their data, plus account wide achievement l
 
 ## Other
 
-### /swagger-ui/index
+### /docs
 
 API docs page for easier understanding of what's available and possible with this API.
 
