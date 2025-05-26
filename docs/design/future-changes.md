@@ -98,6 +98,18 @@ Async tests:
 
 Mean =
 
+## Additional Models
+
+For speed of implementation for this tech test, as well as its relative simplicity, I opted to not implement
+many models. The only one that was is `Threshold` as the `_calculate_achievement_level` function was sorely
+needing better clarity.
+
+To improve readability throughout the code additional models would be useful. The ones I'd look towards
+implementing first would be a `User` and `Game` model to represent the data being retrieved from the given
+users API. Given the simplicity of the JSON objects I would argue it's unnecessary to provide further models,
+but a real project such as this I expect would have far more complicated objects and so additional modelling
+would be very useful for readability.
+
 ## Metrication
 
 Some basic metrics would help in understanding where heavier loads exist, and in feeding back to the
