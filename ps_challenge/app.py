@@ -39,7 +39,7 @@ def get_all_users_levels():
 
 
 @app.get("/users/<int:user_id>")
-def get_user_level(user_id):
+def get_user_level(user_id: str):
     """GET endpoint to return a user with their achievement level calculated."""
     try:
         app.logger.info("Get user with ID %s", user_id)

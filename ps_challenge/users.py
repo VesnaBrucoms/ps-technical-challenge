@@ -23,11 +23,11 @@ def get_all_users():
     return r.json()
 
 
-def get_user_library(user_id):
+def get_user_library(user_id: int):
     """Returns a single user games library from the configured API.
 
     Arguments:
-    user_id -- (str) Unique ID for the specific user's library
+    user_id -- Unique ID for the specific user's library
     """
     endpoint = "{}users/{}/library".format(url, user_id)
     logger.debug("Getting user library from endpoint {}".format(endpoint))
@@ -45,12 +45,12 @@ def get_user_library(user_id):
     return r.json()
 
 
-def get_game_achievements(user_id, game_id):
+def get_game_achievements(user_id: int, game_id: int):
     """Returns a single user's completed achievements for one game from the configured API.
 
     Arguments:
-    user_id -- (str) Unique ID for the specific user
-    game_id -- (str) Unique ID for the specific game
+    user_id -- Unique ID for the specific user
+    game_id -- Unique ID for the specific game
     """
     endpoint = "{}users/{}/achievements/{}".format(url, user_id, game_id)
     logger.debug(

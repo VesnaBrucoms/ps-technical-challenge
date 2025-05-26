@@ -1,11 +1,14 @@
 import logging
 import os
 
+from ps_challenge.models.threshold import Threshold
+
+
 CRITERIA_THRESHOLDS = (
-    (50, True, True, True, "Platinum"),
-    (25, False, True, True, "Gold"),
-    (10, False, False, True, "Silver"),
-    (10, False, False, False, "Bronze"),
+    Threshold(50, 1, True, True, True, "Platinum"),
+    Threshold(25, 0.8, False, True, True, "Gold"),
+    Threshold(10, 0.75, False, False, True, "Silver"),
+    Threshold(10, 0, False, False, False, "Bronze"),
 )
 
 users_api_url = os.environ.get("USERS_API_URL", "http://127.0.0.1:8080/")
